@@ -26,7 +26,7 @@ class CyclonedxGomod < Formula
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v1.8.0/cyclonedx-gomod_1.8.0_linux_arm64.tar.gz"
-      sha256 "68b871ea3ae90644824c02bd61f5a1f7919c895d7d5a84cc59847179"
+      sha256 "f0edadef154f73d416d02d6d2f9696c79514820f5ab6e043c6e24e77a5ae8714"
 
       def install
         bin.install "cyclonedx-gomod"
