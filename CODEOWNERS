@@ -1,0 +1,3 @@
+# all maintainers are default-reviewers of new pull requests.
+# see https://github.com/orgs/CycloneDX/teams/maintainers
+*  @CycloneDX/maintainers

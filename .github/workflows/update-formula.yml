@@ -1,0 +1,53 @@
+name: Update a formula
+
+on:
+  workflow_dispatch:
+    inputs: 
+      subject:
+        description: which formula to update?
+        required: true
+        type: choice
+        options:
+          - cli
+          - gomod
+      version:
+        description: which version shall be published
+        required: true
+        type: string
+
+permissions:
+  contents: write # push commits 
+  pull-requests: write # create pullrequests
+
+jobs:
+  update:
+    name: "update formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      UF_SUBJECT: ${{ github.event.inputs.subject }}
+      UF_VERSION: ${{ github.event.inputs.version }}
+    steps:
+      - name: Checkout
+        # see https://github.com/actions/checkout
+        uses: actions/checkout@v4
+      - name: Update Formula
+        run: >
+          .github/scripts/update-formula/"${UF_SUBJECT}"/gen.sh 
+          "${UF_VERSION}"
+          > Formula/cyclonedx-"${UF_SUBJECT}".rb
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit & Push
+        run: |
+          BRANCH_NAME="update-formula/${UF_SUBJECT}-${UF_VERSION}"
+          git checkout -B "$BRANCH_NAME"
+          git add -A Formula
+          git config user.name "[BOT] Formula Updater"
+          git config user.email "formula-updater@bot.local"
+          git commit -m "Update ${UF_SUBJECT}: ${UF_VERSION}"
+          git push -f --set-upstream origin "$BRANCH_NAME"
+      - name: Open PullRequest
+        run: gh pr create --fill-verbose --label "$UF_SUBJECT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
