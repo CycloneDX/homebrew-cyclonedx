@@ -15,18 +15,16 @@ on:
         required: true
         type: string
 
-permissions:
-  contents: write # push commits 
-  pull-requests: write # create pullrequests
+defaults:
+  env:
+    UF_SUBJECT: ${{ github.event.inputs.subject }}
+    UF_VERSION: ${{ github.event.inputs.version }}
 
 jobs:
   update:
     name: "update formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      UF_SUBJECT: ${{ github.event.inputs.subject }}
-      UF_VERSION: ${{ github.event.inputs.version }}
     steps:
       - name: Checkout
         # see https://github.com/actions/checkout
@@ -38,16 +36,48 @@ jobs:
           > Formula/cyclonedx-"${UF_SUBJECT}".rb
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Test Formula
-        # https://docs.brew.sh/Adding-Software-to-Homebrew#testing-and-auditing-the-formula 
+      - name: Archive formula
+        run: TODO
+  test:
+    needs: [ "update" ]
+    name: "Test formula"
+    runs-on: macos-latest
+    timeout-minutes: 10
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_INSTALL_FROM_API: '1'
+    steps:
+      # https://docs.brew.sh/Adding-Software-to-Homebrew#testing-and-auditing-the-formula 
+      - name: fetch formula
+        run: TODO
+      - name: tap
         run: |
-          export HOMEBREW_NO_AUTO_UPDATE=1
-          FORMULA_FILE=./Formula/cyclonedx-"${UF_SUBJECT}".rb
-          brew audit --fix --stric --online "$FORMULA_FILE"
-          brew install --build-from-source "$FORMULA_FILE"
-          brew deps "$FORMULA_FILE"
-          brew test --verbose "$FORMULA_FILE"
-          brew uninstall "$FORMULA_FILE"
+          brew tap-new local/testing --no-git
+          brew tap local/testing .
+      - name: Audit & Fix Formula
+        run: brew audit --fix --stric --online local/testing/cyclonedx-"${UF_SUBJECT}"
+      - name: Archive formula
+        run: TODO
+      - name:
+        run: |
+          brew install --build-from-source local/testing/cyclonedx-"${UF_SUBJECT}"
+          brew deps local/testing/cyclonedx-"${UF_SUBJECT}"
+          brew test --verbose local/testing/cyclonedx-"${UF_SUBJECT}"
+          brew uninstall local/testing/cyclonedx-"${UF_SUBJECT}"
+  commit:
+    permissions:
+      contents: write # push commits 
+      pull-requests: write # create pullrequests
+    needs: [ "update", "test" ]
+    name: "Commit formula"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch formula
+        run: TODO
+      - name: Checkout
+        # see https://github.com/actions/checkout
+        uses: actions/checkout@v4
       - name: Commit & Push
         run: |
           BRANCH_NAME="update-formula/${UF_SUBJECT}-${UF_VERSION}"
