@@ -38,6 +38,16 @@ jobs:
           > Formula/cyclonedx-"${UF_SUBJECT}".rb
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test Formula
+        # https://docs.brew.sh/Adding-Software-to-Homebrew#testing-and-auditing-the-formula 
+        run: |
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          FORMULA_FILE=./Formula/cyclonedx-"${UF_SUBJECT}".rb
+          brew audit --fix --stric --online "$FORMULA_FILE"
+          brew install --build-from-source "$FORMULA_FILE"
+          brew deps "$FORMULA_FILE"
+          brew test --verbose "$FORMULA_FILE"
+          brew uninstall "$FORMULA_FILE"
       - name: Commit & Push
         run: |
           BRANCH_NAME="update-formula/${UF_SUBJECT}-${UF_VERSION}"
