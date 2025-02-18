@@ -22,7 +22,7 @@ permissions:
 jobs:
   update:
     name: "update formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 10
     env:
       UF_SUBJECT: ${{ github.event.inputs.subject }}
