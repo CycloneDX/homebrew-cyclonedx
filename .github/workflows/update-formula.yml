@@ -29,7 +29,7 @@ env:
 
 jobs:
   update:
-    name: "update formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
+    name: "Update Formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -90,11 +90,11 @@ jobs:
           brew test --verbose "$FORMULA"
           brew uninstall "$FORMULA"
   pullrequest:
+    name: "Commit/PR Formula"
     permissions:
       contents: write # push commits 
       pull-requests: write # create pullrequests
     needs: [ "fix-test" ]
-    name: "Commit formula"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
