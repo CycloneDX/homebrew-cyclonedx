@@ -54,7 +54,7 @@ jobs:
   fix-test:
     # https://docs.brew.sh/Adding-Software-to-Homebrew#testing-and-auditing-the-formula 
     needs: [ "update" ]
-    name: "Fix & Test formula"
+    name: "Fix & Test Formula"
     runs-on: macos-latest
     timeout-minutes: 10
     env:
