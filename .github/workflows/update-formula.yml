@@ -56,11 +56,13 @@ jobs:
       HOMEBREW_NO_INSTALL_FROM_API: '1'
       TAP_TESTING: 'local/testing'
     steps:
+      - run: brew developer on
       - name: Fetch Formula
         # https://github.com/actions/download-artifact
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA }}
+          path: Formula
       - name: tap
         run: |
           brew tap-new "$TAP_TESTING" --no-git
@@ -72,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA_FIXED }}
-          path: cyclonedx-${{ env.UF_SUBJECT }}.rb
+          path: Formula/cyclonedx-${{ env.UF_SUBJECT }}.rb
           if-no-files-found: error
           retention-days: 3
       - name: Test Formula
