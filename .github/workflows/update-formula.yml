@@ -19,7 +19,8 @@ defaults:
   env:
     UF_SUBJECT: ${{ github.event.inputs.subject }}
     UF_VERSION: ${{ github.event.inputs.version }}
-
+    ARTIFACT_FORMULA: formula
+    ARTIFACT_FORMULA_FIXED: formula_fixed
 jobs:
   update:
     name: "update formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
@@ -31,53 +32,74 @@ jobs:
         uses: actions/checkout@v4
       - name: Update Formula
         run: >
-          .github/scripts/update-formula/"${UF_SUBJECT}"/gen.sh 
+          .github/scripts/update-formula/"$UF_SUBJECT"/gen.sh 
           "${UF_VERSION}"
-          > Formula/cyclonedx-"${UF_SUBJECT}".rb
+          > Formula/cyclonedx-"$UF_SUBJECT".rb
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Archive formula
-        run: TODO
-  test:
+      - name: Artifact Formula
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_FORMULA }}
+          path: Formula/cyclonedx-"$UF_SUBJECT".rb
+          if-no-files-found: error
+          retention-days: 3
+  fix-test:
+    # https://docs.brew.sh/Adding-Software-to-Homebrew#testing-and-auditing-the-formula 
     needs: [ "update" ]
-    name: "Test formula"
+    name: "Fix & Test formula"
     runs-on: macos-latest
     timeout-minutes: 10
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
       HOMEBREW_NO_INSTALL_FROM_API: '1'
+      TAP_TESTING: 'local/testing'
     steps:
-      # https://docs.brew.sh/Adding-Software-to-Homebrew#testing-and-auditing-the-formula 
-      - name: fetch formula
-        run: TODO
+      - name: Fetch Formula
+        # https://github.com/actions/download-artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_FORMULA }}
       - name: tap
         run: |
-          brew tap-new local/testing --no-git
-          brew tap local/testing .
-      - name: Audit & Fix Formula
-        run: brew audit --fix --stric --online local/testing/cyclonedx-"${UF_SUBJECT}"
-      - name: Archive formula
-        run: TODO
-      - name:
+          brew tap-new "$TAP_TESTING" --no-git
+          brew tap "$TAP_TESTING" .
+      - name: Audit & fix Formula
+        run: brew audit --fix --stric --online "${TAP_TESTING}/cyclonedx-${UF_SUBJECT}"
+      - name: Artifact fixed Formula
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_FORMULA_FIXED }}
+          path: cyclonedx-"$UF_SUBJECT".rb
+          if-no-files-found: error
+          retention-days: 3
+      - name: Test Formula
         run: |
-          brew install --build-from-source local/testing/cyclonedx-"${UF_SUBJECT}"
-          brew deps local/testing/cyclonedx-"${UF_SUBJECT}"
-          brew test --verbose local/testing/cyclonedx-"${UF_SUBJECT}"
-          brew uninstall local/testing/cyclonedx-"${UF_SUBJECT}"
+          FORMULA="${TAP_TESTING}/cyclonedx-${UF_SUBJECT}"
+          brew install --build-from-source "$FORMULA"
+          brew deps "$FORMULA"
+          brew test --verbose "$FORMULA"
+          brew uninstall "$FORMULA"
   commit:
     permissions:
       contents: write # push commits 
       pull-requests: write # create pullrequests
-    needs: [ "update", "test" ]
+    needs: [ "fix-test" ]
     name: "Commit formula"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Fetch formula
-        run: TODO
       - name: Checkout
         # see https://github.com/actions/checkout
         uses: actions/checkout@v4
+      - name: Fetch fixed Formula
+        # https://github.com/actions/download-artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_FORMULA }}
+          path: Formula
       - name: Commit & Push
         run: |
           BRANCH_NAME="update-formula/${UF_SUBJECT}-${UF_VERSION}"
