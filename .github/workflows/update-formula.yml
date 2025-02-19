@@ -1,3 +1,5 @@
+# docs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
 name: Update a formula
 
 on:
@@ -15,12 +17,16 @@ on:
         required: true
         type: string
 
-defaults:
-  env:
-    UF_SUBJECT: ${{ github.event.inputs.subject }}
-    UF_VERSION: ${{ github.event.inputs.version }}
-    ARTIFACT_FORMULA: formula
-    ARTIFACT_FORMULA_FIXED: formula_fixed
+concurrency:
+  group: '${{ github.workflow }}-${{ github.event.inputs.subject }}'
+  cancel-in-progress: true
+
+env:
+  UF_SUBJECT: ${{ github.event.inputs.subject }}
+  UF_VERSION: ${{ github.event.inputs.version }}
+  ARTIFACT_FORMULA: formula
+  ARTIFACT_FORMULA_FIXED: formula_fixed
+
 jobs:
   update:
     name: "update formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
