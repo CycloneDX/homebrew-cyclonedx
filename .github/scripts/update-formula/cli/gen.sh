@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 # Purpose: generate a forumla for "CycloneDX-gomod" 
 
 UF_REPO='CycloneDX/cyclonedx-cli'
