@@ -4,7 +4,7 @@ name: Test formulae
 
 on:
   push:
-    #branches: ["main", "master", "next"]
+    branches: ["main", "master", "next"]
   pull_request:
   workflow_dispatch:
 
@@ -18,10 +18,12 @@ jobs:
     name: "Test Formulae"
     runs-on: macos-latest
     timeout-minutes: 10
-    matrix:
-      f_subject:
-        - cli
-        - gomod
+    strategy:
+      fail-fast: false
+      matrix:
+        f_subject:
+          - cli
+          - gomod
     env:
       TAP_TESTING: 'local/testing'
       F_SUBJECT: ${{ matrix.f_subject }}
