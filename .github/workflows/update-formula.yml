@@ -82,7 +82,7 @@ jobs:
           brew deps "$FORMULA"
           brew test --verbose "$FORMULA"
           brew uninstall "$FORMULA"
-  commit:
+  pullrequest:
     permissions:
       contents: write # push commits 
       pull-requests: write # create pullrequests
