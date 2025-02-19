@@ -70,6 +70,7 @@ jobs:
           name: ${{ env.ARTIFACT_FORMULA }}
       - name: tap
         run: |
+          set -eux
           brew tap-new "$TAP_TESTING" --no-git
           ln -s "$PWD/cyclonedx-${UF_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
       - name: Audit & fix Formula
@@ -84,6 +85,7 @@ jobs:
           retention-days: 3
       - name: Test Formula
         run: |
+          set -eux
           FORMULA="${TAP_TESTING}/cyclonedx-${UF_SUBJECT}"
           brew install --build-from-source "$FORMULA"
           brew deps "$FORMULA"
@@ -109,6 +111,7 @@ jobs:
           path: Formula
       - name: Commit & Push
         run: |
+          set -eux
           BRANCH_NAME="update-formula/${UF_SUBJECT}-${UF_VERSION}"
           git checkout -B "$BRANCH_NAME"
           git add -A Formula
@@ -117,6 +120,6 @@ jobs:
           git commit -s -m "Update ${UF_SUBJECT}: ${UF_VERSION}"
           git push -f --set-upstream origin "$BRANCH_NAME"
       - name: Open PullRequest
-        run: gh pr create --fill-verbose --label "${UF_SUBJECT} ${UF_VERSION}"
+        run: gh pr create --fill-verbose --label "${UF_SUBJECT}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
