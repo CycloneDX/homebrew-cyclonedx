@@ -68,7 +68,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA }}
-      - name: tap
+      - name: brew tap formula
         run: |
           set -eux
           brew tap-new "$TAP_TESTING" --no-git
