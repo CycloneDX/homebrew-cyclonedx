@@ -62,11 +62,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA }}
-          path: Formula
       - name: tap
         run: |
           brew tap-new "$TAP_TESTING" --no-git
-          brew tap "$TAP_TESTING" .
+          ln -s "$PWD/cyclonedx-${UF_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
       - name: Audit & fix Formula
         run: brew audit --fix --stric --online "${TAP_TESTING}/cyclonedx-${UF_SUBJECT}"
       - name: Artifact fixed Formula
@@ -74,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA_FIXED }}
-          path: Formula/cyclonedx-${{ env.UF_SUBJECT }}.rb
+          path: cyclonedx-${{ env.UF_SUBJECT }}.rb
           if-no-files-found: error
           retention-days: 3
       - name: Test Formula

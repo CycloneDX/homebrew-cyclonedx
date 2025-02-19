@@ -1,12 +1,12 @@
 class CyclonedxCli < Formula
-  desc "CycloneDX CLI tool for SBOM analysis, merging, diffs and format conversions."
+  desc "CLI tool for CycloneDX analysis, merging, diffs and format conversions"
   homepage "https://cyclonedx.org"
   version "%VERSION%"
   license "Apache-2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-osx-x64", :using => :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-osx-x64", using: :nounzip
       sha256 "%SHA256SUM_osx-x64%"
 
       def install
@@ -25,7 +25,7 @@ class CyclonedxCli < Formula
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm64", :using => :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm64", using: :nounzip
       sha256 "%SHA256SUM_linux-arm64%"
 
       def install
@@ -33,7 +33,7 @@ class CyclonedxCli < Formula
       end
     end
     if Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm", :using => :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm", using: :nounzip
       sha256 "%SHA256SUM_linux-arm%"
 
       def install
@@ -41,7 +41,7 @@ class CyclonedxCli < Formula
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-x64", :using => :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-x64", using: :nounzip
       sha256 "%SHA256SUM_linux-x64%"
 
       def install
@@ -51,6 +51,6 @@ class CyclonedxCli < Formula
   end
 
   test do
-    system "#{bin}/cyclonedx" "--version"
+    system "#{bin}/cyclonedx" + "--version"
   end
 end
