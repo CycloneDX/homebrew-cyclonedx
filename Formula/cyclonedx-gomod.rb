@@ -46,6 +46,6 @@ class CyclonedxGomod < Formula
   depends_on "git" => :optional
 
   test do
-    system "#{bin}/cyclonedx-gomod" "version"
+    system "#{bin}/cyclonedx-gomod", "--version"
   end
 end

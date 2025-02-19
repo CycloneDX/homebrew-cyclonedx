@@ -51,6 +51,6 @@ class CyclonedxCli < Formula
   end
 
   test do
-    system "#{bin}/cyclonedx" "--version"
+    system "#{bin}/cyclonedx", "--version"
   end
 end
