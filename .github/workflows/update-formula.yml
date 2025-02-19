@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA }}
-          path: Formula/cyclonedx-"$UF_SUBJECT".rb
+          path: Formula/cyclonedx-${{ env.UF_SUBJECT }}.rb
           if-no-files-found: error
           retention-days: 3
   fix-test:
@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_FORMULA_FIXED }}
-          path: cyclonedx-"$UF_SUBJECT".rb
+          path: cyclonedx-${{ env.UF_SUBJECT }}.rb
           if-no-files-found: error
           retention-days: 3
       - name: Test Formula
