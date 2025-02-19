@@ -1,12 +1,8 @@
 class CyclonedxGomod < Formula
-  desc "Creates CycloneDX Software Bill of Materials (SBOM) from Go modules"
+  desc "Creates CycloneDX Software Bill of Materials (SBOM) from Go modules."
   homepage "https://cyclonedx.org"
   version "1.9.0"
   license "Apache-2.0"
-
-  depends_on "git" => :optional
-  depends_on "git" => :optional
-  depends_on "go" => :optional
 
   on_macos do
     if Hardware::CPU.intel?
@@ -46,7 +42,10 @@ class CyclonedxGomod < Formula
     end
   end
 
+  depends_on "go" => :optional
+  depends_on "git" => :optional
+
   test do
-    system bin/"cyclonedx-gomod", "version"
+    system "#{bin}/cyclonedx-gomod" "version"
   end
 end
