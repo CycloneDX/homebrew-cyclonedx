@@ -35,7 +35,7 @@ jobs:
         run: |
           set -eux
           brew tap-new "$TAP_TESTING" --no-git
-          ln -s "$PWD/cyclonedx-${F_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
+          ln -s "$PWD/Formula/cyclonedx-${F_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
       - name: Test Formula
         run: |
           set -eux
