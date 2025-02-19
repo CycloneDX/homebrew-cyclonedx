@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   test-formula:
-    name: "Test Formulae: ${{ matrix.f_subject }}"
+    name: "Test Formula: ${{ matrix.f_subject }}"
     runs-on: macos-latest
     timeout-minutes: 10
     strategy:
