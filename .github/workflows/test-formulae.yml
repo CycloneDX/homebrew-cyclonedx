@@ -1,0 +1,48 @@
+# docs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: Test formulae
+
+on:
+  push:
+    branches: ["main", "master", "next"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+
+jobs:
+  test-formula:
+    name: "Test Formula: ${{ matrix.f_subject }}"
+    runs-on: macos-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        f_subject:
+          - cli
+          - gomod
+    env:
+      TAP_TESTING: 'local/testing'
+      F_SUBJECT: ${{ matrix.f_subject }}
+    steps:
+      - name: Checkout
+        # see https://github.com/actions/checkout
+        uses: actions/checkout@v4
+      - name: brew tap formula
+        run: |
+          set -eux
+          brew tap-new "$TAP_TESTING" --no-git
+          ln -s "$PWD/Formula/cyclonedx-${F_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
+      - name: Test Formula
+        run: |
+          set -eux
+          FORMULA="${TAP_TESTING}/cyclonedx-${F_SUBJECT}"
+          brew install --build-from-source "$FORMULA"
+          brew deps "$FORMULA"
+          brew test --verbose "$FORMULA"
+          brew uninstall "$FORMULA"
+      - name: Audit Formula
+        run: brew audit --stric --online "${TAP_TESTING}/cyclonedx-${F_SUBJECT}"
