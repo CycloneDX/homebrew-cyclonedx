@@ -46,6 +46,6 @@ class CyclonedxGomod < Formula
   end
 
   test do
-    system "#{bin}/cyclonedx-gomod", "version"
+    system bin/"cyclonedx-gomod", "version"
   end
 end

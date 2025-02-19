@@ -76,6 +76,8 @@ jobs:
       - name: Audit & fix Formula
         run: brew audit --fix --stric --online "${TAP_TESTING}/cyclonedx-${UF_SUBJECT}"
       - name: Artifact fixed Formula
+        # `brew audit` might fail, but still fix. in this case, we should modify the template accordingly
+        if: ${{ ! cancelled() }}
         # https://github.com/actions/upload-artifact
         uses: actions/upload-artifact@v4
         with:
