@@ -122,6 +122,6 @@ jobs:
           git commit -s -m "Update ${UF_SUBJECT}: ${UF_VERSION}"
           git push -f --set-upstream origin "$BRANCH_NAME"
       - name: Open PullRequest
-        run: gh pr create --fill-verbose --label "$UF_SUBJECT"
+        run: gh pr create --fill-verbose --label "$UF_SUBJECT" -B '${{ github.ref_name }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
