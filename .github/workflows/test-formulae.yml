@@ -6,6 +6,7 @@ on:
   push:
     branches: ["main", "master", "next"]
   pull_request:
+    types: [opened, edited]  # needed to force run when PR is created by a bot
   workflow_dispatch:
 
 concurrency:
