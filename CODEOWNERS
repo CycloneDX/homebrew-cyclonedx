@@ -2,5 +2,8 @@
 # see https://github.com/orgs/CycloneDX/teams/maintainers
 *  @CycloneDX/maintainers
 
-Formula/cyclonedx-cli.rb    @CycloneDX/maintainers @CycloneDX/net-maintainers
-Formula/cyclonedx-gomod.rb  @CycloneDX/maintainers @CycloneDX/go-maintainers
+Formula/cyclonedx-cli.rb              @CycloneDX/maintainers @CycloneDX/net-maintainers
+.github/scripts/update-formula/cli/*  @CycloneDX/maintainers @CycloneDX/go-maintainers
+
+Formula/cyclonedx-gomod.rb              @CycloneDX/maintainers @CycloneDX/go-maintainers
+.github/scripts/update-formula/gomod/*  @CycloneDX/maintainers @CycloneDX/go-maintainers
