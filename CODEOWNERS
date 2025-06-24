@@ -1,3 +1,6 @@
 # all maintainers are default-reviewers of new pull requests.
 # see https://github.com/orgs/CycloneDX/teams/maintainers
 *  @CycloneDX/maintainers
+
+Formula/cyclonedx-cli.rb    @CycloneDX/maintainers @CycloneDX/net-maintainers
+Formula/cyclonedx-gomod.rb  @CycloneDX/maintainers @CycloneDX/go-maintainers
