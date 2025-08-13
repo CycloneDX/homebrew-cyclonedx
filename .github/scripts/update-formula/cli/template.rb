@@ -9,7 +9,7 @@ class CyclonedxCli < Formula
       url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-osx-x64", using: :nounzip
       sha256 "%SHA256SUM_osx-x64%"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-osx-x64" => "cyclonedx"
       end
     end
@@ -17,7 +17,7 @@ class CyclonedxCli < Formula
       url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-osx-arm64"
       sha256 "%SHA256SUM_osx-arm64%"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-osx-arm64" => "cyclonedx"
       end
     end
@@ -28,7 +28,7 @@ class CyclonedxCli < Formula
       url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm64", using: :nounzip
       sha256 "%SHA256SUM_linux-arm64%"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-linux-arm64" => "cyclonedx"
       end
     end
@@ -36,7 +36,7 @@ class CyclonedxCli < Formula
       url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm", using: :nounzip
       sha256 "%SHA256SUM_linux-arm%"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-linux-arm" => "cyclonedx"
       end
     end
@@ -44,7 +44,7 @@ class CyclonedxCli < Formula
       url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-x64", using: :nounzip
       sha256 "%SHA256SUM_linux-x64%"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-linux-x64" => "cyclonedx"
       end
     end
