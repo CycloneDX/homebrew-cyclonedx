@@ -28,9 +28,16 @@ jobs:
           - cli
           - gomod
     env:
-      TAP_TESTING: 'local/testing'
+      TAP_TESTING: 'homebrew-local/testing'
       F_SUBJECT: ${{ matrix.f_subject }}
     steps:
+      - name: enable brew dev mode
+        run: brew developer on
+      - name: brew upgrade 
+        run: |
+          set -eux
+          brew upgrade
+          brew --version
       - name: Checkout
         # see https://github.com/actions/checkout
         uses: actions/checkout@v4
@@ -39,6 +46,7 @@ jobs:
           set -eux
           brew tap-new "$TAP_TESTING" --no-git
           ln -s "$PWD/Formula/cyclonedx-${F_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
+          # sym-link works on macos - everywhere else use copy ...
       - name: Test Formula
         run: |
           set -eux
