@@ -31,7 +31,7 @@ jobs:
       TAP_TESTING: 'homebrew-local/testing'
       F_SUBJECT: ${{ matrix.f_subject }}
     steps:
-      - name: enable brew ved mode
+      - name: enable brew dev mode
         run: brew developer on
       - name: brew upgrade 
         run: |

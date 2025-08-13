@@ -65,7 +65,7 @@ jobs:
       HOMEBREW_NO_INSTALL_FROM_API: '1'
       TAP_TESTING: 'homebrew-local/testing'
     steps:
-      - name: enable brew ved mode
+      - name: enable brew dev mode
         run: brew developer on
       - name: brew upgrade 
         run: |
