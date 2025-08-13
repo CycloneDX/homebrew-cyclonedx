@@ -82,6 +82,7 @@ jobs:
           set -eux
           brew tap-new "$TAP_TESTING" --no-git
           ln -s "$PWD/cyclonedx-${UF_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
+          # sym-link works on macos - everywhere else use copy ...
       - name: Audit & fix Formula
         run: brew audit --fix --stric --online "${TAP_TESTING}/cyclonedx-${UF_SUBJECT}"
       - name: Artifact fixed Formula
