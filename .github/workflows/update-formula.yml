@@ -63,9 +63,15 @@ jobs:
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
       HOMEBREW_NO_INSTALL_FROM_API: '1'
-      TAP_TESTING: 'local/testing'
+      TAP_TESTING: 'homebrew-local/testing'
     steps:
-      - run: brew developer on
+      - name: enable brew ved mode
+        run: brew developer on
+      - name: brew upgrade 
+        run: |
+          set -eux
+          brew upgrade
+          brew --version
       - name: Fetch Formula
         # https://github.com/actions/download-artifact
         uses: actions/download-artifact@v4

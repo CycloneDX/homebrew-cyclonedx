@@ -28,9 +28,16 @@ jobs:
           - cli
           - gomod
     env:
-      TAP_TESTING: 'local/testing'
+      TAP_TESTING: 'homebrew-local/testing'
       F_SUBJECT: ${{ matrix.f_subject }}
     steps:
+      - name: enable brew ved mode
+        run: brew developer on
+      - name: brew upgrade 
+        run: |
+          set -eux
+          brew upgrade
+          brew --version
       - name: Checkout
         # see https://github.com/actions/checkout
         uses: actions/checkout@v4
