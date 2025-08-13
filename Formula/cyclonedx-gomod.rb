@@ -12,7 +12,7 @@ class CyclonedxGomod < Formula
       url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v1.9.0/cyclonedx-gomod_1.9.0_darwin_amd64.tar.gz"
       sha256 "e6ccdf6d10a9a73607a65439ac56c6c5479437d8831d3cca24a86731a1e15bcd"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-gomod"
       end
     end
@@ -20,7 +20,7 @@ class CyclonedxGomod < Formula
       url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v1.9.0/cyclonedx-gomod_1.9.0_darwin_arm64.tar.gz"
       sha256 "feef9e4fdf7e97bcd7fe5312aa13e2ae53a65d52eb48f64ff110f61820e442fb"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-gomod"
       end
     end
@@ -31,7 +31,7 @@ class CyclonedxGomod < Formula
       url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v1.9.0/cyclonedx-gomod_1.9.0_linux_arm64.tar.gz"
       sha256 "288e3ff0474fdb658e71808e788d3683f2ab93d324d53426c53580d49f04403e"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-gomod"
       end
     end
@@ -39,7 +39,7 @@ class CyclonedxGomod < Formula
       url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v1.9.0/cyclonedx-gomod_1.9.0_linux_amd64.tar.gz"
       sha256 "e6d3b3a409b1c84ccef79ad15f9127d80c430a92d5c4f9e621bc2f0f3ee6d423"
 
-      def install
+      define_method(:install) do
         bin.install "cyclonedx-gomod"
       end
     end
