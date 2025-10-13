@@ -47,8 +47,8 @@ jobs:
         run: |
           set -eux
           brew tap-new "$TAP_TESTING" --no-git
-          ln -s "$PWD/Formula/cyclonedx-${F_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")"/Formula/
-          # sym-link works on macos - everywhere else use copy ...
+          ln "$PWD/Formula/cyclonedx-${F_SUBJECT}.rb" "$(brew --repo "$TAP_TESTING")/Formula/"
+          # sym-link might work on some older versions of brew - everywhere else use hard-links or copy ...
       - name: Test Formula
         run: |
           set -eux
