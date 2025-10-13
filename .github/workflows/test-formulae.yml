@@ -7,6 +7,8 @@ on:
     branches: ["main", "master", "next"]
   pull_request:
     types: [opened, edited]  # needed to force run when PR is created by a bot
+  schedule:
+    - cron: '42 23 * * 0'
   workflow_dispatch:
 
 concurrency:
