@@ -1,0 +1,48 @@
+# docs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: Detect latest releases
+
+on:
+  schedule:
+    - cron: '42 23 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+# https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token
+permissions: {}
+
+jobs:
+  bump-latest:
+    name: "Detect latest: ${{ matrix.f_subject }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        f_subject:
+          - cli
+          - gomod
+    permissions:
+      actions: write  # needed to trigger another workflow
+    env:
+      UF_SUBJECT: ${{ matrix.f_subject }}
+    steps:
+      - name: Checkout
+        # see https://github.com/actions/checkout
+        uses: actions/checkout@v4
+      - name: find latest version
+        id: detect-latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "version=$(.github/scripts/update-formula/"$UF_SUBJECT"/latest.sh)" >> "$GITHUB_OUTPUT"
+      - name: update latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UF_VERSION: ${{ steps.detect-latest.outputs.version }}
+        run: >
+          gh workflow run update-formula.yml
+          -f subject="$UF_SUBJECT"
+          -f version="$UF_VERSION"

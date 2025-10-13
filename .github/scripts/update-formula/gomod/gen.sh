@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eu
-# Purpose: generate a forumla for "CycloneDX-gomod" 
+# Purpose: generate a formula for "CycloneDX-gomod" 
 
 UF_REPO='CycloneDX/cyclonedx-gomod'
-UF_VERSION="$1"
+UF_VERSION="${1#v}"
 
 THIS_DIR="$(realpath "$(dirname "$0")" )"
 TMP_DIR="$(mktemp -d "$THIS_DIR/.tmp.fu.XXXXXXXX")"

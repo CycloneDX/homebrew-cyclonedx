@@ -1,6 +1,7 @@
 # docs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
-name: Update a formula
+name: Update formula
+run-name: "Update Formula: ${{ inputs.subject }} ${{ inputs.version }}"
 
 on:
   workflow_dispatch:
@@ -32,7 +33,7 @@ permissions: {}
 
 jobs:
   update:
-    name: "Update Formula: ${{ github.event.inputs.subject }} ${{ github.event.inputs.version }}"
+    name: "Update Formula"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -122,20 +123,28 @@ jobs:
           name: ${{ env.ARTIFACT_FORMULA_FIXED }}
           path: Formula
       - name: Commit & Push
+        id: commit-push
         run: |
           set -eux
           BRANCH_NAME='${{ github.ref_name }}'_"update-formula/${UF_SUBJECT}-${UF_VERSION}"
           git checkout -B "$BRANCH_NAME"
+          if git diff --exit-code --quiet
+          then
+            echo "NOTHING CHANGED." >&2
+            echo 'changes=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git add -A Formula
           git config user.name "[BOT] Formula Updater"
           git config user.email "formula-updater@bot.local"
           git commit -s -m "Update ${UF_SUBJECT}: ${UF_VERSION}"
           git push -f --set-upstream origin "$BRANCH_NAME"
       - name: Open PullRequest
+        if: ${{ steps.commit-push.outputs.changes != 'false' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: >
           gh pr create
           --fill-verbose
           --label "formula: ${UF_SUBJECT}"
           --base '${{ github.ref_name }}'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
