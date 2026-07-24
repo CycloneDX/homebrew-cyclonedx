@@ -1,21 +1,21 @@
 class CyclonedxCli < Formula
   desc "CLI tool for CycloneDX analysis, merging, diffs and format conversions"
   homepage "https://cyclonedx.org"
-  version "0.30.0"
+  version "0.33.1"
   license "Apache-2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.30.0/cyclonedx-osx-x64", using: :nounzip
-      sha256 "1603264fd2968b8d617e48aa7e9cf17bee1d25a8ffe717aec37caf1605a21961"
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-osx-x64", using: :nounzip
+      sha256 "0ea92306fc7d7c30ed112a7463781a200585a3bf1cdaf77229181c5aabd1d4b6"
 
       define_method(:install) do
         bin.install "cyclonedx-osx-x64" => "cyclonedx"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.30.0/cyclonedx-osx-arm64"
-      sha256 "dabbaf07e543e7996f708147475e2daa69ddf8a8683c5b06febc7d3f074e5e24"
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-osx-arm64"
+      sha256 "750c148780154833f6401f9067d08c5a4c31567b6ee3c26c062c3a95c62d741c"
 
       define_method(:install) do
         bin.install "cyclonedx-osx-arm64" => "cyclonedx"
@@ -25,24 +25,24 @@ class CyclonedxCli < Formula
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.30.0/cyclonedx-linux-arm64", using: :nounzip
-      sha256 "190da406177311aa1081edd0c717df10271eba7e4356a56215494a70e1a4b459"
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-linux-arm64", using: :nounzip
+      sha256 "b2e9fdf9665ef49868a2ec012171c6e785dcd69745bc5869e53e4f4bfb096a5f"
 
       define_method(:install) do
         bin.install "cyclonedx-linux-arm64" => "cyclonedx"
       end
     end
     if Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.30.0/cyclonedx-linux-arm", using: :nounzip
-      sha256 "983e2ce2e077417625427670e22170e6f13a90653c3b1d3354bf0448720f5eb0"
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-linux-arm", using: :nounzip
+      sha256 "9be17c77aa70c85d82184195b9e06ad621693ebf90c22e0080c35b27629c707a"
 
       define_method(:install) do
         bin.install "cyclonedx-linux-arm" => "cyclonedx"
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.30.0/cyclonedx-linux-x64", using: :nounzip
-      sha256 "f89876326620f5fc78a9b27cc1af57d6ed13d019aab87490e1246a44a910babb"
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-linux-x64", using: :nounzip
+      sha256 "bfc8b2538da86fe239bc53658bbb63c1c8c510a293c1e6891aa5bea5d3c58746"
 
       define_method(:install) do
         bin.install "cyclonedx-linux-x64" => "cyclonedx"
