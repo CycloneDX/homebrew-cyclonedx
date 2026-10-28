@@ -1,7 +1,6 @@
 class CyclonedxCli < Formula
   desc "CLI tool for CycloneDX analysis, merging, diffs and format conversions"
   homepage "https://cyclonedx.org"
-  version "0.33.1"
   license "Apache-2.0"
 
   on_macos do
@@ -14,7 +13,7 @@ class CyclonedxCli < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-osx-arm64"
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.33.1/cyclonedx-osx-arm64", using: :nounzip
       sha256 "750c148780154833f6401f9067d08c5a4c31567b6ee3c26c062c3a95c62d741c"
 
       define_method(:install) do
