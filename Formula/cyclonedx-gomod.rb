@@ -1,7 +1,6 @@
 class CyclonedxGomod < Formula
   desc "Creates CycloneDX Software Bill of Materials (SBOM) from Go modules"
   homepage "https://cyclonedx.org"
-  version "1.12.0"
   license "Apache-2.0"
 
   depends_on "git" => :optional
