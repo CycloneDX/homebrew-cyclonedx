@@ -1,10 +1,6 @@
 class CyclonedxGomod < Formula
-  VERSION = "%VERSION%".freeze
-  RELEASE_URL = "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v#{VERSION}".freeze
-
   desc "Creates CycloneDX Software Bill of Materials (SBOM) from Go modules"
   homepage "https://cyclonedx.org"
-  version VERSION
   license "Apache-2.0"
 
   depends_on "git" => :optional
@@ -12,7 +8,7 @@ class CyclonedxGomod < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "#{RELEASE_URL}/cyclonedx-gomod_#{VERSION}_darwin_amd64.tar.gz"
+      url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v%VERSION%/cyclonedx-gomod_%VERSION%_darwin_amd64.tar.gz"
       sha256 "%SHA256SUM_darwin_amd64%"
 
       define_method(:install) do
@@ -20,7 +16,7 @@ class CyclonedxGomod < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "#{RELEASE_URL}/cyclonedx-gomod_#{VERSION}_darwin_arm64.tar.gz"
+      url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v%VERSION%/cyclonedx-gomod_%VERSION%_darwin_arm64.tar.gz"
       sha256 "%SHA256SUM_darwin_arm64%"
 
       define_method(:install) do
@@ -31,7 +27,7 @@ class CyclonedxGomod < Formula
 
   on_linux do
     if Hardware::CPU.arm?
-      url "#{RELEASE_URL}/cyclonedx-gomod_#{VERSION}_linux_arm64.tar.gz"
+      url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v%VERSION%/cyclonedx-gomod_%VERSION%_linux_arm64.tar.gz"
       sha256 "%SHA256SUM_linux_arm64%"
 
       define_method(:install) do
@@ -39,7 +35,7 @@ class CyclonedxGomod < Formula
       end
     end
     if Hardware::CPU.intel?
-      url "#{RELEASE_URL}/cyclonedx-gomod_#{VERSION}_linux_amd64.tar.gz"
+      url "https://github.com/CycloneDX/cyclonedx-gomod/releases/download/v%VERSION%/cyclonedx-gomod_%VERSION%_linux_amd64.tar.gz"
       sha256 "%SHA256SUM_linux_amd64%"
 
       define_method(:install) do

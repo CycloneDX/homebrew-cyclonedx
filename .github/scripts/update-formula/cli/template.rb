@@ -1,15 +1,11 @@
 class CyclonedxCli < Formula
-  VERSION = "%VERSION%".freeze
-  RELEASE_URL = "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v#{VERSION}".freeze
-
   desc "CLI tool for CycloneDX analysis, merging, diffs and format conversions"
   homepage "https://cyclonedx.org"
-  version VERSION
   license "Apache-2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "#{RELEASE_URL}/cyclonedx-osx-x64", using: :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-osx-x64", using: :nounzip
       sha256 "%SHA256SUM_osx-x64%"
 
       define_method(:install) do
@@ -17,7 +13,7 @@ class CyclonedxCli < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "#{RELEASE_URL}/cyclonedx-osx-arm64", using: :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-osx-arm64", using: :nounzip
       sha256 "%SHA256SUM_osx-arm64%"
 
       define_method(:install) do
@@ -28,7 +24,7 @@ class CyclonedxCli < Formula
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "#{RELEASE_URL}/cyclonedx-linux-arm64", using: :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm64", using: :nounzip
       sha256 "%SHA256SUM_linux-arm64%"
 
       define_method(:install) do
@@ -36,7 +32,7 @@ class CyclonedxCli < Formula
       end
     end
     if Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-      url "#{RELEASE_URL}/cyclonedx-linux-arm", using: :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-arm", using: :nounzip
       sha256 "%SHA256SUM_linux-arm%"
 
       define_method(:install) do
@@ -44,7 +40,7 @@ class CyclonedxCli < Formula
       end
     end
     if Hardware::CPU.intel?
-      url "#{RELEASE_URL}/cyclonedx-linux-x64", using: :nounzip
+      url "https://github.com/CycloneDX/cyclonedx-cli/releases/download/v%VERSION%/cyclonedx-linux-x64", using: :nounzip
       sha256 "%SHA256SUM_linux-x64%"
 
       define_method(:install) do
