@@ -58,4 +58,4 @@ jobs:
           brew test --verbose "$FORMULA"
           brew uninstall "$FORMULA"
       - name: Audit Formula
-        run: brew audit --stric --online "${TAP_TESTING}/cyclonedx-${F_SUBJECT}"
+        run: brew audit --strict --online "${TAP_TESTING}/cyclonedx-${F_SUBJECT}"
